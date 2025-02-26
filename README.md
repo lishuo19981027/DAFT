@@ -1,2 +1,2 @@
 This repository contains the reference code for the paper Enhancing Visual Contextual Semantic Information for Image Captioning.
-![overview.jpg](assets/overview.jpg)
+![overview.png](./overview.png)
