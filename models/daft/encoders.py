@@ -30,9 +30,9 @@ class SR(nn.Module):
 
     def forward(self,outs):
         outs = torch.cat(outs, dim=-1)  # 沿最后一个维度进行拼接
-        # outs = outs.permute(0, 2, 1)  # 重新排列维度，以适应卷积层的输入
-        # outs = self.conv(outs)  # 应用卷积
-        # outs = outs.permute(0, 2, 1)  # 重新排列维度，以适应线性层的输入
+        outs = outs.permute(0, 2, 1)  # 重新排列维度，以适应卷积层的输入
+        outs = self.conv(outs)  # 应用卷积
+        outs = outs.permute(0, 2, 1)  # 重新排列维度，以适应线性层的输入
         outs = self.MLP(outs)  # 应用MLP
         
         return outs
@@ -199,13 +199,12 @@ class MultiLevelEncoder(nn.Module):
         out = input
         out1 = pixel
 
-        # 先交叉注意
+        # 三重交叉
         out2=self.layers2(out, out, out1,attention_mask, attention_weights)
-        out3=self.layers2(out1, out1, out,attention_mask, attention_weights)
-        out4=self.layers2(out1, out, out,attention_mask, attention_weights)
-        out5=self.layers2(out, out1, out1,attention_mask, attention_weights)
+        out3=self.layers2(out2, out1, out1,attention_mask, attention_weights)
+        out4=self.layers2(out3, out2, out2,attention_mask, attention_weights)
         # outs.append(out2 + out3)
-        out6 = out2 + out3 + out4 + out5
+        out6 = out2 + out4
         
         # outs.append(out6)
 
@@ -220,11 +219,11 @@ class MultiLevelEncoder(nn.Module):
         return out, attention_mask
 
 
-class DifnetEncoder(MultiLevelEncoder):
+class DAFTEncoder(MultiLevelEncoder):
     def __init__(self, N, padding_idx, d_in=2048, **kwargs):
-        super(DifnetEncoder, self).__init__(N, padding_idx, **kwargs)
+        super(DAFTEncoder, self).__init__(N, padding_idx, **kwargs)
 
     def forward(self, input, pixel, attention_weights=None):
 
-        return super(DifnetEncoder, self).forward(input, pixel, attention_weights=attention_weights)
+        return super(DAFTEncoder, self).forward(input, pixel, attention_weights=attention_weights)
 

@@ -40,10 +40,10 @@ class DecoderLayer(Module):
         return ff
 
 
-class DifnetDecoder(Module):
+class DAFTDecoder(Module):
     def __init__(self, vocab_size, max_len, N_dec, padding_idx, d_model=512, d_k=64, d_v=64, h=8, d_ff=2048, dropout=.1,
                  self_att_module=None, enc_att_module=None, self_att_module_kwargs=None, enc_att_module_kwargs=None):
-        super(DifnetDecoder, self).__init__()
+        super(DAFTDecoder, self).__init__()
         self.d_model = d_model
         self.word_emb = nn.Embedding(vocab_size, d_model, padding_idx=padding_idx)
         self.pos_emb = nn.Embedding.from_pretrained(sinusoid_encoding_table(max_len + 1, d_model, 0), freeze=True)

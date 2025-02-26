@@ -112,6 +112,7 @@ class ScaledDotProductdilateAttention(nn.Module):
 
 
 
+# 多尺度多头空洞注意力
 class MultiHeaddilateAttention(Module):
     '''
     Multi-head attention layer with Dropout and Layer Normalization.

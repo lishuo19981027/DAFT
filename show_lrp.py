@@ -103,7 +103,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='DIFNet')
     parser.add_argument('--exp_name', type=str, nargs='+', default='DIFNet', help='select one or more lrp_results for showing')
     parser.add_argument('--out_path', type=str, default='./output/output_lrp')
-    # parser.add_argument('--mode', type=str, default='base', choices=['base', 'base_lrp', 'difnet', 'difnet_lrp'])
+    # parser.add_argument('--mode', type=str, default='base', choices=['base', 'base_lrp', 'daft', 'difnet_lrp'])
     args = parser.parse_args()
 
     save_img_contribution = os.path.join(args.out_path, '{}.jpg'.format('contribution'))

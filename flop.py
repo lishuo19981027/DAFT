@@ -8,7 +8,7 @@ from fvcore.nn.flop_count import flop_count
 import argparse
 from models.transformer import TransformerEncoder, TransformerDecoder, ScaledDotProductAttention, Transformer
 from models.transformer_lrp import TransformerEncoder_LRP, TransformerDecoder_LRP, ScaledDotProductAttention_LRP, Transformer_LRP
-from models.difnet import Difnet, DifnetEncoder, DifnetDecoder
+from models.daft import Difnet, DAFTEncoder, DAFTDecoder
 from models.difnet_lrp import Difnet_LRP, DifnetEncoder_LRP
 
 
@@ -19,7 +19,7 @@ text_field.vocab = pickle.load(open('vocab_transformer/vocab.pkl', 'rb'))
 
 parser = argparse.ArgumentParser(description='transformer Depth')
 parser.add_argument('--mode', type=str, default='base',
-                        choices=['base', 'base_lrp', 'difnet_lrp', 'difnet'])
+                        choices=['base', 'base_lrp', 'difnet_lrp', 'daft'])
 args = parser.parse_args()
 
 # Model and dataloaders
@@ -31,9 +31,9 @@ if args.mode == 'base_lrp':
     encoder = TransformerEncoder_LRP(3, 0, attention_module=ScaledDotProductAttention_LRP)
     decoder = TransformerDecoder_LRP(len(text_field.vocab), 54, 3, text_field.vocab.stoi['<pad>'])
     model = Transformer_LRP(text_field.vocab.stoi['<bos>'], encoder, decoder).to(device)
-if args.mode == 'difnet':
-    encoder = DifnetEncoder(1, 2, 3, 0, attention_module=ScaledDotProductAttention)
-    decoder = DifnetDecoder(len(text_field.vocab), 54, 3, text_field.vocab.stoi['<pad>'])
+if args.mode == 'daft':
+    encoder = DAFTEncoder(1, 2, 3, 0, attention_module=ScaledDotProductAttention)
+    decoder = DAFTDecoder(len(text_field.vocab), 54, 3, text_field.vocab.stoi['<pad>'])
     model = Difnet(text_field.vocab.stoi['<bos>'], encoder, decoder).to(device)
 if args.mode == 'difnet_lrp':
     encoder = DifnetEncoder_LRP(3, 0, attention_module=ScaledDotProductAttention_LRP)

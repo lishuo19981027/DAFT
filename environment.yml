@@ -1,4 +1,4 @@
-name: difnet
+name: daft
 channels:
   - anaconda
   - defaults
